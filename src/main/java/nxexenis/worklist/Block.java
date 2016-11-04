@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Simple tree node representing a code block
+ * Simple graph node representing a code block
  */
 public class Block
 {
@@ -79,16 +79,37 @@ public class Block
      */
     public String blockTreeString()
     {
-        StringBuilder sb = new StringBuilder(identifier);
+        // This method is an interface for the implementation
+        return blockTreeString("", new HashSet<>());
+    }
+
+    /**
+     * Implementation of blockTreeString
+     */
+    private String blockTreeString(String padding, Set<Block> visited)
+    {
+        StringBuilder sb = new StringBuilder(padding).append(identifier);
+        visited.add(this);
         if (children.size() > 0)
         {
-            String padding = "  ";
-            sb.append("\n{");
+            String newPadding = padding + "    ";
+            sb.append("\n").append(padding).append("{");
             for (Block b : children)
             {
-                sb.append("\n").append(padding).append(b.blockTreeString());
+                sb.append("\n");
+
+                // We need to avoid cycles; if the block has been visited, we do not continue recursion
+                if (!visited.contains(b))
+                {
+                    Set<Block> visitedCopy = new HashSet<>(visited);
+                    sb.append(b.blockTreeString(newPadding, visitedCopy));
+                }
+                else
+                {
+                    sb.append(newPadding).append(b).append(" (visited)");
+                }
             }
-            sb.append("\n}");
+            sb.append("\n").append(padding).append("}");
         }
         return sb.toString();
     }
