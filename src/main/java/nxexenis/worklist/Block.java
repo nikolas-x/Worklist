@@ -1,5 +1,6 @@
 package nxexenis.worklist;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -31,6 +32,11 @@ public class Block
     public boolean addChild(Block child)
     {
         return children.add(child);
+    }
+
+    public boolean addChildren(Block... children)
+    {
+        return this.children.addAll(Arrays.asList(children));
     }
 
     /* Getters */
