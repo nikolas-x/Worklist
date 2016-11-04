@@ -1,0 +1,12 @@
+.classpath
+.metadata
+.project
+.settings/
+.idea/
+*.iml
+*.class
+target/
+*.bak
+*.jar
+*.orig
+gen/
